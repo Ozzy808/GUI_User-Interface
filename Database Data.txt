@@ -1,0 +1,65 @@
+
+
+
+
+
+----- Database name : ShortLoanApplication
+
+
+----table name -------------
+
+
+
+/****** Object:  Table [dbo].[ISYS_UserMaster]    Script Date: 04/06/2025 20:57:25 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ISYS_UserMaster](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserName] [nvarchar](50) NULL,
+	[Password] [nvarchar](50) NULL,
+	[User_ID] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+
+
+----------------------------------- Store procedure----------------------------------------------------
+
+USE [ShortLoanApplication]
+GO
+
+/****** Object:  StoredProcedure [dbo].[ISP_Login_Validation]    Script Date: 04/06/2025 20:58:16 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[ISP_Login_Validation]
+	@UserName NVARCHAR(100) ,
+	@Password NVARCHAR(100)
+AS
+BEGIN
+    DECLARE @Exist  NVARCHAR(100)
+
+	SELECT @Exist = COUNT([Id])
+	FROM   [dbo].[View_UserMaster]
+	WHERE  RTRIM([UserName]) = RTRIM(@UserName)
+	AND    RTRIM([Password]) = RTRIM(@Password)
+
+	SELECT @Exist AS UserExist
+END
+GO
+
+
+
